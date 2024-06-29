@@ -1,0 +1,25 @@
+// Main theme
+$background: #ffffff;
+
+$btn-gray: #6c767d;
+$btn-red: #ff3413;
+$btn-green: #33a64c;
+$btn-blue: #0085fc;
+
+$text: #000;
+$text-constrast: #ffffff;
+
+// Font
+$primary-font: "Helvetica Neue", sans-serif;
+$weight-bold: bold;
+$weight-regular: normal;
+$small: 0.75rem;
+$medium: 0.875rem;
+$large: 1.125rem;
+
+// Root css
+.main-title {
+  color: $text;
+  font-size: $large;
+  font-family: $primary-font;
+}

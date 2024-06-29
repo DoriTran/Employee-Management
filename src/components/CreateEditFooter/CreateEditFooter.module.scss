@@ -1,0 +1,13 @@
+.footer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+
+  .editButtonGroup {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-grow: 1;
+  }
+}
