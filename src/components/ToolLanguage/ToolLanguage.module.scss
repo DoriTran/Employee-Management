@@ -1,0 +1,34 @@
+@import "@/app/globals.scss";
+
+.toolLanguageContainer {
+  width: calc(80% - 150px - 150px);
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+
+  .infoNameTime {
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    .timeRange {
+      width: 250px;
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+
+      font-size: $super;
+    }
+  }
+
+  .imageList {
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 25px;
+  }
+}

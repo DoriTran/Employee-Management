@@ -1,13 +1,13 @@
 import { CreateEditFooter, FullEmployeeInfo } from "@/components";
 import styles from "./page.module.scss";
 
-const CreatePage = () => {
+const EditPage = () => {
   return (
     <div className={styles.pageContainer}>
       <FullEmployeeInfo />
-      <CreateEditFooter create />
+      <CreateEditFooter edit />
     </div>
   );
 };
 
-export default CreatePage;
+export default EditPage;

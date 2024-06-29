@@ -1,0 +1,28 @@
+@import "@/app/globals.scss";
+
+.imageUploadedContainer {
+  position: relative;
+  width: 130px;
+  height: 100px;
+
+  .roundedImage {
+    border-radius: 15px;
+  }
+
+  .removeButton {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 22px;
+    height: 22px;
+    background-color: rgba(83, 81, 81, 0.7);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.75rem;
+    color: #fff;
+  }
+}

@@ -1,15 +1,26 @@
 import { FC } from "react";
-import { Button } from "@mui/material";
+import clsx from "clsx";
 import styles from "./InputProfile.module.scss";
+import AppButton from "../AppButton/AppButton";
+import AppInput from "../AppInput/AppInput";
+
+export interface AutocompleteOption {
+  label: string;
+}
 
 interface InputProfileProps {
   children?: React.ReactNode;
-  label: string;
+  label?: string;
   name?: string;
   required?: boolean;
   type?: string;
+  placeholder?: string;
+  options?: string[];
   action?: any;
   actionString?: string;
+  width?: string;
+  classname?: string;
+  [key: string]: any;
 }
 
 const InputProfile: FC<InputProfileProps> = ({
@@ -17,18 +28,24 @@ const InputProfile: FC<InputProfileProps> = ({
   label,
   name = label,
   required = false,
-  type = "text",
   action = () => {},
   actionString = "",
+  classname,
+  ...restProps
 }) => {
   return (
-    <div className={styles.inputProfileContainer}>
-      <div className={styles.label}>{`${label}${required && " *"}`}</div>
-      <input type={type} required name={name} />
+    <div className={clsx(classname, styles.inputProfileContainer)}>
+      {label && <div className={styles.label}>{`${label}${required && " *"}`}</div>}
+      <AppInput name={name} required={required} {...restProps} />
       {children}
-      <Button variant="contained" onClick={action}>
-        {actionString}
-      </Button>
+      {actionString.length !== 0 && (
+        <AppButton
+          sx={{ lineHeight: "normal", backgroundColor: "#6c767d", "&:hover": { backgroundColor: "#333333" } }}
+          onClick={action}
+        >
+          {actionString}
+        </AppButton>
+      )}
     </div>
   );
 };

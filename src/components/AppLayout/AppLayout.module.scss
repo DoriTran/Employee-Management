@@ -1,0 +1,11 @@
+@import "@/app/globals.scss";
+
+.page {
+  margin: 45px 200px;
+
+  .title {
+    color: $text;
+    font-size: $super;
+    font-family: $primary-font;
+  }
+}

@@ -1,0 +1,17 @@
+@import "@/app/globals.scss";
+
+.button {
+  border-radius: 15px;
+  border: 2px dotted #acb4b9;
+  background-color: #fbfbfb;
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+  text-align: center;
+  font-size: $medium;
+  user-select: none;
+
+  .buttonPlus {
+    font-size: $super;
+  }
+}
