@@ -29,7 +29,7 @@ const EmployeeCard: FC<EmployeeCardProps> = ({ employee }) => {
           height={200}
           objectFit="cover"
           loading="lazy"
-          onClick={() => router.push("/edit")}
+          onClick={() => router.push(`/edit/${employee.id}`)}
         />
       )}
       {employee.allPortfolioImages?.length !== 0 && (
@@ -50,20 +50,20 @@ const EmployeeCard: FC<EmployeeCardProps> = ({ employee }) => {
               height={200}
               objectFit="cover"
               loading="lazy"
-              onClick={() => router.push("/edit")}
+              onClick={() => router.push(`/edit/${employee.id}`)}
             />
           ))}
         </Carousel>
       )}
       <div className={styles.cardbody}>
-        <div className={styles.info} onClick={() => router.push("/edit")}>
+        <div className={styles.info} onClick={() => router.push(`/edit/${employee.id}`)}>
           <div className={styles.personal}>
             <div className={styles.name}>{employee.name}</div>
             <div>{employee.allPositions}</div>
           </div>
           <div>{`${employee.totalExperience} years`} </div>
         </div>
-        <div className={styles.description} onClick={() => router.push("/edit")}>
+        <div className={styles.description} onClick={() => router.push(`/edit/${employee.id}`)}>
           {employee.fullDescription}
         </div>
       </div>

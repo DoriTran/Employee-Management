@@ -779,23 +779,26 @@ let fakeEmployeesData: EmployeeData[] = [
 // Server action - API Implementations
 
 export async function getEmployee(employeeId: number): Promise<EmployeeData> {
-  if (!employeeId || Number.isNaN(Number(employeeId))) {
-    throw new Error("Invalid or missing employee ID");
-  }
+  // if (!employeeId || Number.isNaN(Number(employeeId))) {
+  //   throw new Error("Invalid or missing employee ID");
+  // }
 
-  const response = await fetch(`/api/employees/${employeeId}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  // const response = await fetch(`/api/employees/${employeeId}`, {
+  //   method: "GET",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  // });
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch employee data: ${response.statusText}`);
-  }
+  // if (!response.ok) {
+  //   throw new Error(`Failed to fetch employee data: ${response.statusText}`);
+  // }
 
-  const data = await response.json();
-  return data.data;
+  // const data = await response.json();
+  // return data.data;
+
+  console.log(fakeEmployeesData.filter((employee) => employee.id === employeeId)?.[0] || null);
+  return fakeEmployeesData.filter((employee) => employee.id === employeeId)?.[0] || null;
 }
 
 export async function getPositionResources(): Promise<PositionResourceData[]> {

@@ -19,10 +19,9 @@ const AppLayout: FC<AppLayoutProps> = ({ children }) => {
         return "List employees";
       case "/create":
         return "Create employee profile";
-      case "/edit":
-        return "Edit employee profile";
       default:
-        return "404 Page";
+        if (pathname.includes("edit")) return "Edit employee profile";
+        return "404 Page Not Found";
     }
   }, [pathname]);
 

@@ -28,13 +28,16 @@ interface ToolLanguageOptions {
 
 interface FullEmployeeInfoProp {
   create?: boolean;
-  edit?: boolean;
+  edit?: any;
 }
 
-const FullEmployeeInfo: FC<FullEmployeeInfoProp> = ({ create, edit }) => {
+const FullEmployeeInfo: FC<FullEmployeeInfoProp> = ({ create, edit = null }) => {
   // The length indicates the number of Positions
   // Each number represents the number of tool & language for that position
-  const [profileInfo, setProfileInfo] = useState<any>(defaultProfile);
+  const [profileInfo, setProfileInfo] = useState<any>(edit || defaultProfile);
+  useEffect(() => {
+    if (edit) setProfileInfo(edit);
+  }, [edit]);
 
   // Position options
   const [positionOptions, setPositionOptions] = useState<string[]>([]);
@@ -42,11 +45,6 @@ const FullEmployeeInfo: FC<FullEmployeeInfoProp> = ({ create, edit }) => {
   useEffect(() => {
     const fetchedPositionResources = async () => {
       const resources = await getPositionResources();
-      // const positionById: PositionMap = resources.reduce((acc: PositionMap, position) => {
-      //   acc[position.positionResourceId] = position.name;
-      //   return acc;
-      // }, {});
-
       setPositionOptions(resources.map((eachResource: PositionResourceData) => eachResource.name));
       setToolOptions(
         resources.reduce((acc: ToolLanguageOptions, eachResource: PositionResourceData) => {

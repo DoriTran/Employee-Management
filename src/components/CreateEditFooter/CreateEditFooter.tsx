@@ -18,7 +18,7 @@ const CreateEditFooter: FC<CreateEditFooterProps> = ({ create = false, edit = fa
   const onSave = () => {
     if (create) createEmployee(data);
     if (edit) updateEmployee(1, data);
-    setTimeout(() => router.push("/list"), 10000);
+    setTimeout(() => router.push("/list"), 3000);
   };
 
   if (!create && !edit) return null;
