@@ -2,7 +2,10 @@
 
 import { FC, useMemo } from "react";
 import { usePathname } from "next/navigation";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import styles from "./AppLayout.module.scss";
+
+const queryClient = new QueryClient();
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -26,7 +29,7 @@ const AppLayout: FC<AppLayoutProps> = ({ children }) => {
   return (
     <div className={styles.page}>
       <div className={styles.title}>{title}</div>
-      {children}
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </div>
   );
 };

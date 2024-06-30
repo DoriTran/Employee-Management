@@ -1,7 +1,14 @@
 "use server";
 
-import { EmployeeData, EmployeePageData, PositionResourceData } from "./types";
-import fakeEmployeesData from "./fake";
+import {
+  EmployeeData,
+  EmployeePageData,
+  ImageData,
+  PositionData,
+  PositionResourceData,
+  ToolLanguagesData,
+} from "./types";
+import { fakeEmployeesData, positionResources } from "./fake";
 
 export async function getEmployee(employeeId: number): Promise<EmployeeData> {
   if (!employeeId || Number.isNaN(Number(employeeId))) {
@@ -21,6 +28,43 @@ export async function getEmployee(employeeId: number): Promise<EmployeeData> {
 
   const data = await response.json();
   return data.data;
+}
+
+export async function getPositionResources(): Promise<PositionResourceData[]> {
+  /* Code for real api calls if you interested */
+
+  // const response = await fetch(`/api/positionResources`, {
+  //   method: "GET",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  // });
+
+  // if (!response.ok) {
+  //   throw new Error(`Failed to fetch position resources: ${response.statusText}`);
+  // }
+
+  // const data = await response.json();
+  // return data.data;
+
+  return positionResources;
+}
+
+function calculateTotalExperience(toolLanguages: ToolLanguagesData[]): number {
+  return toolLanguages.reduce((accumulator: number, toolLanguage: ToolLanguagesData) => {
+    const fromYear = toolLanguage.from;
+    const toYear = toolLanguage.to;
+
+    // Calculate experience (to - from) and add to accumulator
+    if (fromYear && toYear && !Number.isNaN(fromYear) && !Number.isNaN(toYear)) {
+      return accumulator + (toYear - fromYear);
+    }
+    return accumulator;
+  }, 0);
+}
+
+interface PositionMap {
+  [key: number]: string;
 }
 
 export async function getEmployees(
@@ -54,38 +98,64 @@ export async function getEmployees(
   await new Promise((resolve) => {
     setTimeout(resolve, 2000);
   });
-  let filteredEmployees = [...fakeEmployeesData];
+
+  const fetchedPositionResources = await getPositionResources();
+  const positionById: PositionMap = fetchedPositionResources.reduce((acc: PositionMap, position) => {
+    acc[position.positionResourceId] = position.name;
+    return acc;
+  }, {});
+
+  let sortedEmployees = [...fakeEmployeesData];
+
+  // Sort employees by total experience (descending)
+  sortedEmployees.sort((a, b) => {
+    const experienceA = calculateTotalExperience(a.positions.flatMap((position) => position.toolLanguages));
+    const experienceB = calculateTotalExperience(b.positions.flatMap((position) => position.toolLanguages));
+    a.totalExperience = experienceA;
+    b.totalExperience = experienceB;
+    return experienceB - experienceA;
+  });
+
+  // Search in the sorted employees
   if (search) {
     const searchTerm = search.toLowerCase();
-    filteredEmployees = fakeEmployeesData.filter((employee) => employee.name.toLowerCase().includes(searchTerm));
+    sortedEmployees = sortedEmployees.filter((employee) => employee.name.toLowerCase().includes(searchTerm));
   }
 
+  // Sliced the sorted employees
   const startIndex = (pageNumber - 1) * pageSize;
-  const slicedEmployees = filteredEmployees.slice(startIndex, startIndex + pageSize);
+  const slicedEmployees = sortedEmployees.slice(startIndex, startIndex + pageSize);
+
+  // Add extra attribute to those employees
+  const saltedEmployees = [...slicedEmployees].map((eachEmployee: EmployeeData) => {
+    const { positions } = eachEmployee;
+    const allToolLanguages = positions.map((eachPosition: PositionData) => eachPosition.toolLanguages).flat();
+
+    return {
+      ...eachEmployee,
+      allPortfolioImages: allToolLanguages
+        .map((eachToolLanguage: ToolLanguagesData) => eachToolLanguage.images)
+        .flat()
+        .map((eachImage: ImageData) => eachImage.cdnUrl),
+      allPositions: positions.reduce(
+        (accumulator: string, eachPosition: PositionData) =>
+          `${accumulator}${accumulator.length !== 0 ? " & " : ""}` +
+          `${positionById[eachPosition.positionResourceId] || ""}`,
+        "",
+      ),
+      fullDescription: allToolLanguages.reduce((accumulator: string, toolLanguage: ToolLanguagesData) => {
+        return `${accumulator}${accumulator.length !== 0 ? ", " : ""}${toolLanguage.description}`;
+      }, ""),
+    };
+  });
 
   const response = {
     totalItems: slicedEmployees.length,
-    totalPages: Math.ceil(filteredEmployees.length / pageSize),
-    pageItems: slicedEmployees,
+    totalPages: Math.ceil(sortedEmployees.length / pageSize),
+    pageItems: saltedEmployees,
   };
 
   return response;
-}
-
-export async function getPositionResources(): Promise<PositionResourceData[]> {
-  const response = await fetch(`/api/positionResources`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error(`Failed to fetch position resources: ${response.statusText}`);
-  }
-
-  const data = await response.json();
-  return data.data;
 }
 
 export async function createEmployee(employee: any): Promise<void> {

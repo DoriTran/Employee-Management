@@ -21,62 +21,50 @@ const EmployeeCard: FC<EmployeeCardProps> = ({ employee }) => {
 
   return (
     <Paper className={styles.card} onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)}>
-      <Carousel
-        arrows
-        autoplay
-        fade
-        autoplaySpeed={5000}
-        prevArrow={<FontAwesomeIcon icon={faCircleChevronLeft} fixedWidth />}
-        nextArrow={<FontAwesomeIcon icon={faCircleChevronRight} fixedWidth />}
-      >
+      {(!employee.allPortfolioImages || employee.allPortfolioImages.length === 0) && (
         <Image
-          src="/profile.png"
-          alt="fallback portfolio 1"
+          src="/No Portfolio.png"
+          alt="No portfolio"
           width={300}
           height={200}
           objectFit="cover"
           loading="lazy"
           onClick={() => router.push("/edit")}
         />
-        <Image
-          src="/profile1.png"
-          alt="fallback portfolio 2"
-          width={300}
-          height={200}
-          objectFit="cover"
-          loading="lazy"
-          onClick={() => router.push("/edit")}
-        />
-        <Image
-          src="/profile2.png"
-          alt="fallback portfolio 3"
-          width={300}
-          height={200}
-          objectFit="cover"
-          loading="lazy"
-          onClick={() => router.push("/edit")}
-        />
-        {employee?.images.map((image: string, index: number) => (
-          <Image
-            key={index}
-            src={image}
-            alt={`fallback portfolio ${index}`}
-            layout="fill"
-            objectFit="cover"
-            loading="lazy"
-          />
-        ))}
-      </Carousel>
+      )}
+      {employee.allPortfolioImages?.length !== 0 && (
+        <Carousel
+          arrows
+          autoplay
+          fade
+          autoplaySpeed={5000}
+          prevArrow={<FontAwesomeIcon icon={faCircleChevronLeft} fixedWidth />}
+          nextArrow={<FontAwesomeIcon icon={faCircleChevronRight} fixedWidth />}
+        >
+          {employee.allPortfolioImages.map((image: string, index: number) => (
+            <Image
+              key={index}
+              src={image}
+              alt={`fallback portfolio ${index}`}
+              width={300}
+              height={200}
+              objectFit="cover"
+              loading="lazy"
+              onClick={() => router.push("/edit")}
+            />
+          ))}
+        </Carousel>
+      )}
       <div className={styles.cardbody}>
         <div className={styles.info} onClick={() => router.push("/edit")}>
           <div className={styles.personal}>
-            <div className={styles.name}>Nguyen Thi B</div>
-            <div>Frontend developer</div>
+            <div className={styles.name}>{employee.name}</div>
+            <div>{employee.allPositions}</div>
           </div>
-          <div>5 years</div>
+          <div>{`${employee.totalExperience} years`} </div>
         </div>
         <div className={styles.description} onClick={() => router.push("/edit")}>
-          This is description ...
+          {employee.fullDescription}
         </div>
       </div>
       <div className={styles.button}>{isHover && <AppButton color="error">Delete</AppButton>}</div>

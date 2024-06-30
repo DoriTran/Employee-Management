@@ -1,7 +1,7 @@
-import { EmployeeData } from "./types";
+import { EmployeeData, PositionResourceData } from "./types";
 
 // Fake employee data act as temporary data, only reset when server restart (generated from chatGPT by my prompts)
-const fakeEmployeesData: EmployeeData[] = [
+export const fakeEmployeesData: EmployeeData[] = [
   {
     id: 1,
     name: "John Doe",
@@ -441,7 +441,7 @@ const fakeEmployeesData: EmployeeData[] = [
             images: [
               {
                 id: 1,
-                cdnUrl: "/profile18.png",
+                cdnUrl: "/profile8.png",
                 displayOrder: 0,
               },
             ],
@@ -456,7 +456,7 @@ const fakeEmployeesData: EmployeeData[] = [
             images: [
               {
                 id: 1,
-                cdnUrl: "/profile19.png",
+                cdnUrl: "/profile9.png",
                 displayOrder: 0,
               },
             ],
@@ -484,7 +484,7 @@ const fakeEmployeesData: EmployeeData[] = [
             images: [
               {
                 id: 1,
-                cdnUrl: "/profile20.png",
+                cdnUrl: "/profile10.png",
                 displayOrder: 0,
               },
             ],
@@ -512,7 +512,7 @@ const fakeEmployeesData: EmployeeData[] = [
             images: [
               {
                 id: 1,
-                cdnUrl: "/profile21.png",
+                cdnUrl: "/profile11.png",
                 displayOrder: 0,
               },
             ],
@@ -527,7 +527,7 @@ const fakeEmployeesData: EmployeeData[] = [
             images: [
               {
                 id: 1,
-                cdnUrl: "/profile22.png",
+                cdnUrl: "/profile12.png",
                 displayOrder: 0,
               },
             ],
@@ -555,7 +555,7 @@ const fakeEmployeesData: EmployeeData[] = [
             images: [
               {
                 id: 1,
-                cdnUrl: "/profile23.png",
+                cdnUrl: "/profile13.png",
                 displayOrder: 0,
               },
             ],
@@ -570,7 +570,7 @@ const fakeEmployeesData: EmployeeData[] = [
             images: [
               {
                 id: 1,
-                cdnUrl: "/profile24.png",
+                cdnUrl: "/profile14.png",
                 displayOrder: 0,
               },
             ],
@@ -598,7 +598,7 @@ const fakeEmployeesData: EmployeeData[] = [
             images: [
               {
                 id: 1,
-                cdnUrl: "/profile25.png",
+                cdnUrl: "/profile15.png",
                 displayOrder: 0,
               },
             ],
@@ -626,7 +626,7 @@ const fakeEmployeesData: EmployeeData[] = [
             images: [
               {
                 id: 1,
-                cdnUrl: "/profile26.png",
+                cdnUrl: "/profile16.png",
                 displayOrder: 0,
               },
             ],
@@ -641,7 +641,7 @@ const fakeEmployeesData: EmployeeData[] = [
             images: [
               {
                 id: 1,
-                cdnUrl: "/profile27.png",
+                cdnUrl: "/profile17.png",
                 displayOrder: 0,
               },
             ],
@@ -669,7 +669,7 @@ const fakeEmployeesData: EmployeeData[] = [
             images: [
               {
                 id: 1,
-                cdnUrl: "/profile28.png",
+                cdnUrl: "/profile18.png",
                 displayOrder: 0,
               },
             ],
@@ -684,7 +684,7 @@ const fakeEmployeesData: EmployeeData[] = [
             images: [
               {
                 id: 1,
-                cdnUrl: "/profile29.png",
+                cdnUrl: "/profile19.png",
                 displayOrder: 0,
               },
             ],
@@ -712,7 +712,7 @@ const fakeEmployeesData: EmployeeData[] = [
             images: [
               {
                 id: 1,
-                cdnUrl: "/profile30.png",
+                cdnUrl: "/profile20.png",
                 displayOrder: 0,
               },
             ],
@@ -740,7 +740,7 @@ const fakeEmployeesData: EmployeeData[] = [
             images: [
               {
                 id: 1,
-                cdnUrl: "/profile31.png",
+                cdnUrl: "/profile11.png",
                 displayOrder: 0,
               },
             ],
@@ -755,7 +755,7 @@ const fakeEmployeesData: EmployeeData[] = [
             images: [
               {
                 id: 1,
-                cdnUrl: "/profile32.png",
+                cdnUrl: "/profile12.png",
                 displayOrder: 0,
               },
             ],
@@ -766,4 +766,118 @@ const fakeEmployeesData: EmployeeData[] = [
   },
 ];
 
-export default fakeEmployeesData;
+export const positionResources: PositionResourceData[] = [
+  {
+    positionResourceId: 1,
+    name: "Frontend",
+    toolLanguageResources: [
+      {
+        toolLanguageResourceId: 1,
+        positionResourceId: 1,
+        name: "Javascript",
+      },
+      {
+        toolLanguageResourceId: 2,
+        positionResourceId: 1,
+        name: "ReactJS",
+      },
+      {
+        toolLanguageResourceId: 3,
+        positionResourceId: 1,
+        name: "VueJS",
+      },
+      {
+        toolLanguageResourceId: 4,
+        positionResourceId: 1,
+        name: "AngularJS",
+      },
+      {
+        toolLanguageResourceId: 5,
+        positionResourceId: 1,
+        name: "Jquery",
+      },
+    ],
+  },
+  {
+    positionResourceId: 2,
+    name: "Backend",
+    toolLanguageResources: [
+      {
+        toolLanguageResourceId: 6,
+        positionResourceId: 2,
+        name: "PHP",
+      },
+      {
+        toolLanguageResourceId: 7,
+        positionResourceId: 2,
+        name: "Python",
+      },
+      {
+        toolLanguageResourceId: 8,
+        positionResourceId: 2,
+        name: "Ruby",
+      },
+      {
+        toolLanguageResourceId: 9,
+        positionResourceId: 2,
+        name: "Java",
+      },
+      {
+        toolLanguageResourceId: 10,
+        positionResourceId: 2,
+        name: "Nodejs",
+      },
+      {
+        toolLanguageResourceId: 11,
+        positionResourceId: 2,
+        name: "C",
+      },
+      {
+        toolLanguageResourceId: 12,
+        positionResourceId: 2,
+        name: "C++",
+      },
+      {
+        toolLanguageResourceId: 13,
+        positionResourceId: 2,
+        name: ".NET",
+      },
+    ],
+  },
+  {
+    positionResourceId: 3,
+    name: "Designer",
+    toolLanguageResources: [
+      {
+        toolLanguageResourceId: 14,
+        positionResourceId: 3,
+        name: "Adobe XD",
+      },
+      {
+        toolLanguageResourceId: 15,
+        positionResourceId: 3,
+        name: "Figma",
+      },
+      {
+        toolLanguageResourceId: 16,
+        positionResourceId: 3,
+        name: "Illustrator",
+      },
+      {
+        toolLanguageResourceId: 17,
+        positionResourceId: 3,
+        name: "InvisionStudio",
+      },
+      {
+        toolLanguageResourceId: 18,
+        positionResourceId: 3,
+        name: "Photoshop",
+      },
+      {
+        toolLanguageResourceId: 19,
+        positionResourceId: 3,
+        name: "Sketch",
+      },
+    ],
+  },
+];

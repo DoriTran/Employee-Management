@@ -5,5 +5,6 @@ export { default as CreateEditFooter } from "./CreateEditFooter/CreateEditFooter
 export { default as EmployeeCard } from "./EmployeeCard/EmployeeCard";
 export { default as FullEmployeeInfo } from "./FullEmployeeInfo/FullEmployeeInfo";
 export { default as ImageButton } from "./ImageButton/ImageButton";
+export { default as ListHeader } from "./ListHeader/ListHeader";
 export { default as ToolLanguage } from "./ToolLanguage/ToolLanguage";
 export { default as InputProfile } from "./InputProfile/InputProfile";

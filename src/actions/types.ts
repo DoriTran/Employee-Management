@@ -25,6 +25,10 @@ export interface PositionData {
 export interface EmployeeData {
   id: number;
   name: string;
+  allPortfolioImages?: string[];
+  totalExperience?: number;
+  allPositions?: string;
+  fullDescription?: string;
   positions: PositionData[];
 }
 
