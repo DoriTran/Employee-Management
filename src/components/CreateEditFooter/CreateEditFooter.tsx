@@ -26,7 +26,7 @@ const CreateEditFooter: FC<CreateEditFooterProps> = ({ create = false, edit = fa
     <div className={styles.footer}>
       {edit && (
         <div className={styles.editButtonGroup}>
-          <AppButton color="error" onClick={() => console.log("delete")}>
+          <AppButton color="error" onClick={() => {}}>
             Delete
           </AppButton>
           <AppButton

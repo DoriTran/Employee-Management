@@ -987,8 +987,6 @@ export async function createEmployee(employee: any): Promise<void> {
 
   // Fake database with no api implementation
   fakeEmployeesData = [...fakeEmployeesData, employee];
-  console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-  console.log(fakeEmployeesData);
 }
 
 export async function updateEmployee(employeeId: number, employeeData: any): Promise<void> {

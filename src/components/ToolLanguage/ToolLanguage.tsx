@@ -29,8 +29,6 @@ const ToolLanguage: FC<ToolLanguageProps> = ({ options, removeThis, index, posit
     setImages(newImages);
   };
 
-  console.log(value);
-
   useEffect(() => {
     const newPositions = [...value.positions];
     if (newPositions[positionIndex].toolLanguages.length > index) {
