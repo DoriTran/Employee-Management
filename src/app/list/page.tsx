@@ -8,8 +8,8 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import styles from "./page.module.scss";
 
 const ListPage = () => {
+  const [tempString, setTempString] = useState<string>("");
   const [searchString, setSearchString] = useState<string>("");
-  // const [totalPage, setTotalPage] = useState<number>(0);
 
   const fetchEmployees = async ({ pageParam = 1 }) => {
     const response = await getEmployees(searchString, pageParam, 10);
@@ -17,7 +17,7 @@ const ListPage = () => {
   };
 
   const { data, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } = useInfiniteQuery({
-    queryKey: ["ListPage"],
+    queryKey: ["ListPage", searchString],
     queryFn: fetchEmployees,
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
@@ -50,7 +50,11 @@ const ListPage = () => {
 
   return (
     <div className={styles.pageContainer}>
-      <ListHeader searchString={searchString} setSearchString={setSearchString} onSearch={() => {}} />
+      <ListHeader
+        searchString={tempString}
+        setSearchString={setTempString}
+        onSearch={() => setSearchString(tempString)}
+      />
       <div className={styles.listEmployee}>
         {data?.pages?.map((pageItems: any) =>
           pageItems.pageItems.map((employee: any) => <EmployeeCard key={employee.id} employee={employee} />),

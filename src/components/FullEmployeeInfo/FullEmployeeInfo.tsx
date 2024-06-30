@@ -1,87 +1,180 @@
 "use client";
 
-import React, { useState } from "react";
-import { AppButton, InputProfile, ToolLanguage } from "@/components";
-import { positions } from "@/data/options/position";
+import React, { FC, useEffect, useState } from "react";
+import { AppButton, CreateEditFooter, InputProfile, ToolLanguage } from "@/components";
 import { Divider } from "@mui/material";
 import clsx from "clsx";
+import { PositionResourceData } from "@/actions/types";
+import { getPositionResources } from "@/actions";
 import styles from "./FullEmployeeInfo.module.scss";
 
-const FullEmployeeInfo = () => {
+const defaultProfile = {
+  name: "",
+  positions: [
+    {
+      name: "",
+      toolLanguages: [{ name: "", from: undefined, to: undefined, description: "", images: [] }],
+    },
+    {
+      name: "",
+      toolLanguages: [],
+    },
+  ],
+};
+
+interface ToolLanguageOptions {
+  [key: string]: string[];
+}
+
+interface FullEmployeeInfoProp {
+  create?: boolean;
+  edit?: boolean;
+}
+
+const FullEmployeeInfo: FC<FullEmployeeInfoProp> = ({ create, edit }) => {
   // The length indicates the number of Positions
   // Each number represents the number of tool & language for that position
-  const [profileLenInfo, setProfileLenInfo] = useState<string[][]>([[""]]);
+  const [profileInfo, setProfileInfo] = useState<any>(defaultProfile);
+
+  // Position options
+  const [positionOptions, setPositionOptions] = useState<string[]>([]);
+  const [toolOptions, setToolOptions] = useState<ToolLanguageOptions>({});
+  useEffect(() => {
+    const fetchedPositionResources = async () => {
+      const resources = await getPositionResources();
+      // const positionById: PositionMap = resources.reduce((acc: PositionMap, position) => {
+      //   acc[position.positionResourceId] = position.name;
+      //   return acc;
+      // }, {});
+
+      setPositionOptions(resources.map((eachResource: PositionResourceData) => eachResource.name));
+      setToolOptions(
+        resources.reduce((acc: ToolLanguageOptions, eachResource: PositionResourceData) => {
+          acc[eachResource.name as keyof ToolLanguageOptions] = eachResource.toolLanguageResources.map(
+            (eachToolLanguage: any) => eachToolLanguage.name,
+          );
+          return acc;
+        }, {}),
+      );
+    };
+
+    fetchedPositionResources();
+  }, []);
 
   // Add new functions
-  const addNewPosition = () => setProfileLenInfo([...profileLenInfo, [""]]);
-  const addNewToolLanguage = (atPosition: number, toolLanguage: string) => {
-    const newProfileLenInfo = [...profileLenInfo];
-    newProfileLenInfo[atPosition] = [...newProfileLenInfo[atPosition], toolLanguage];
-    setProfileLenInfo(newProfileLenInfo);
+  const addNewPosition = () => {
+    const newPosition = [
+      ...profileInfo.positions,
+      {
+        name: "",
+        toolLanguages: [
+          {
+            name: "",
+            from: undefined,
+            to: undefined,
+            description: "",
+            images: [],
+          },
+        ],
+      },
+    ];
+    setProfileInfo({ ...profileInfo, positions: newPosition });
+  };
+  const addNewToolLanguage = (atPosition: number) => {
+    const newPosition = [...profileInfo.positions];
+    newPosition[atPosition].toolLanguages = [
+      ...newPosition[atPosition].toolLanguages,
+      { name: "", from: 2024, to: 2024, description: "", images: [] },
+    ];
+    setProfileInfo({ ...profileInfo, positions: newPosition });
   };
 
   // Remove functions
   const removePosition = (at: number) => {
-    const newProfileLenInfo = [...profileLenInfo];
-    newProfileLenInfo.splice(at, 1);
-    setProfileLenInfo(newProfileLenInfo);
-  };
-  const removeToolLanguage = (atPosition: number, at: number) => {
-    const newProfileLenInfo = [...profileLenInfo];
-    newProfileLenInfo[atPosition] = newProfileLenInfo[atPosition].splice(at, 1);
-    setProfileLenInfo(newProfileLenInfo);
+    const newPosition = [...profileInfo.positions];
+    newPosition.splice(at, 1);
+    setProfileInfo({ ...profileInfo, positions: newPosition });
   };
 
   return (
     <>
       <InputProfile
+        value={profileInfo.name}
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+          setProfileInfo({ ...profileInfo, name: event.target.value })
+        }
         type="text"
         label="Name"
         required
         className={styles.nameInput}
         placeholder="Input your name ..."
       />
-      {profileLenInfo.map((allToolLanguage, positionIndex) => (
-        <React.Fragment key={positionIndex}>
+      {profileInfo.positions.map((allToolLanguage: any, positionIndex: number) => (
+        <>
           <InputProfile
+            value={profileInfo.positions[positionIndex].name}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              const newPositions = [...profileInfo.positions];
+              const newName = event.target.textContent;
+              if (profileInfo.positions[positionIndex].name === newName) return;
+              newPositions[positionIndex] = {
+                name: newName,
+                toolLanguages: [
+                  {
+                    name: "",
+                    from: undefined,
+                    to: undefined,
+                    description: "",
+                    images: [],
+                  },
+                ],
+              };
+              setProfileInfo({ ...profileInfo, positions: newPositions });
+            }}
             type="autoComplete"
-            options={positions}
+            options={positionOptions || []}
             label="Position"
             required
             action={removePosition}
             actionString="Delete position"
             placeholder="Your position ..."
           />
-          {allToolLanguage.map((_, index) => (
-            <React.Fragment key={index}>
-              <ToolLanguage key={index} removeThis={() => removeToolLanguage(positionIndex, index)} />
+          {allToolLanguage?.toolLanguages.map((_: any, index: number) => (
+            <>
+              <ToolLanguage
+                options={toolOptions[profileInfo.positions[positionIndex].name] || []}
+                index={index}
+                positionIndex={positionIndex}
+                value={profileInfo}
+                setValue={setProfileInfo}
+                removeThis={() => {
+                  const newPositions = [...profileInfo.positions];
+                  newPositions[positionIndex].toolLanguages.splice(index, 1);
+                  setProfileInfo({ ...profileInfo, positions: newPositions });
+                }}
+              />
               {allToolLanguage.length > 1 && index !== allToolLanguage.length - 1 && (
                 <Divider className={clsx(styles.divider, styles.dividerDot)} />
               )}
-            </React.Fragment>
+            </>
           ))}
-          <AppButton
-            variant="outlined"
-            onClick={() => addNewToolLanguage(positionIndex, "new tool")}
-            sx={{ width: "160px", marginLeft: "160px" }}
-          >
-            Add Tool/Language
-          </AppButton>
+          {allToolLanguage?.name !== "" && (
+            <AppButton
+              variant="outlined"
+              onClick={() => addNewToolLanguage(positionIndex)}
+              sx={{ width: "160px", marginLeft: "160px" }}
+            >
+              Add Tool/Language
+            </AppButton>
+          )}
+
           <Divider className={clsx(styles.divider, styles.darker)} />
-        </React.Fragment>
+        </>
       ))}
-      <InputProfile
-        type="autoComplete"
-        options={positions}
-        label="Position"
-        required
-        action={removePosition}
-        actionString="Delete position"
-        placeholder="Your position ..."
-      />
       <AppButton onClick={() => addNewPosition()} sx={{ marginLeft: "160px" }}>
         Add Position
       </AppButton>
+      <CreateEditFooter create={create} edit={edit} data={profileInfo} />
     </>
   );
 };

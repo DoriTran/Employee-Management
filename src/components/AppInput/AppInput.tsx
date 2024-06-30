@@ -44,6 +44,7 @@ const AppInput: FC<AppInputProps> = ({
           sx={{ width: width || "calc(80% - 150px - 150px)" }}
           required={required}
           placeholder={placeholder}
+          {...restProps}
         />
       )}
       {type === "select" && (
@@ -70,7 +71,6 @@ const AppInput: FC<AppInputProps> = ({
       )}
       {type === "autoComplete" && (
         <Autocomplete
-          freeSolo
           forcePopupIcon
           disablePortal
           options={options}

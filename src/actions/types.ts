@@ -13,6 +13,7 @@ export interface ToolLanguagesData {
   to: number;
   description: string;
   images: ImageData[];
+  name?: string;
 }
 
 export interface PositionData {
@@ -20,16 +21,17 @@ export interface PositionData {
   positionResourceId: number;
   displayOrder: number;
   toolLanguages: ToolLanguagesData[];
+  name?: string;
 }
 
 export interface EmployeeData {
   id: number;
   name: string;
+  positions: PositionData[];
   allPortfolioImages?: string[];
   totalExperience?: number;
   allPositions?: string;
   fullDescription?: string;
-  positions: PositionData[];
 }
 
 export interface EmployeePageData {
