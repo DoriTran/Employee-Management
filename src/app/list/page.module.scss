@@ -5,4 +5,25 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
+  justify-content: center;
+
+  .listHeader {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    .label {
+      min-width: fit-content;
+    }
+  }
+
+  .listEmployee {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-top: 50px;
+  }
 }

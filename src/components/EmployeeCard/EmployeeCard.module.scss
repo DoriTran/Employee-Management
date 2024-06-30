@@ -1,0 +1,49 @@
+@import "@/app/globals.scss";
+
+.card {
+  position: relative;
+  width: 300px;
+  height: 370px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .cardbody {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px 15px;
+    cursor: pointer;
+
+    .info {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      font-size: $medium;
+
+      .personal {
+        display: flex;
+        flex-direction: column;
+
+        .name {
+          font-weight: bold;
+          font-size: $large;
+        }
+      }
+    }
+
+    .description {
+      padding-top: 15px;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .button {
+    position: absolute;
+    z-index: 2;
+    left: calc(50% - 67px);
+    bottom: 15px;
+  }
+}

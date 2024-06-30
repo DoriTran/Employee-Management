@@ -8,6 +8,11 @@ export interface AutocompleteOption {
   label: string;
 }
 
+interface ActionProp {
+  color?: string;
+  [key: string]: any;
+}
+
 interface InputProfileProps {
   children?: React.ReactNode;
   label?: string;
@@ -19,7 +24,9 @@ interface InputProfileProps {
   action?: any;
   actionString?: string;
   width?: string;
-  classname?: string;
+  className?: string;
+  labelClass?: string;
+  actionProp?: ActionProp;
   [key: string]: any;
 }
 
@@ -30,17 +37,24 @@ const InputProfile: FC<InputProfileProps> = ({
   required = false,
   action = () => {},
   actionString = "",
-  classname,
+  className,
+  labelClass,
+  actionProp,
   ...restProps
 }) => {
   return (
-    <div className={clsx(classname, styles.inputProfileContainer)}>
-      {label && <div className={styles.label}>{`${label}${required && " *"}`}</div>}
+    <div className={clsx(className, styles.inputProfileContainer)}>
+      {label && <div className={clsx(labelClass, styles.label)}>{`${label}${required ? " *" : ""}`}</div>}
       <AppInput name={name} required={required} {...restProps} />
       {children}
       {actionString.length !== 0 && (
         <AppButton
-          sx={{ lineHeight: "normal", backgroundColor: "#6c767d", "&:hover": { backgroundColor: "#333333" } }}
+          {...actionProp}
+          sx={{
+            lineHeight: "normal",
+            ...(!actionProp?.color && { backgroundColor: "#6c767d", "&:hover": { backgroundColor: "#333333" } }),
+            ...(actionProp?.sx && { ...actionProp?.sx }),
+          }}
           onClick={action}
         >
           {actionString}
